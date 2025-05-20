@@ -26,13 +26,21 @@ async function run() {
     try {
 
         // all collections here
-        const roommateCollection = client.db('roomlyDB').collection('users');
+        const roommateCollection = client.db('roomlyDB').collection('roommates');
 
         // all routes here
-        app.get('/', (req, res) => {
-            res.send('Server is running')
+
+        //get all roommate
+        app.get('/roommates', async (req, res) => {
+            const result = await roommateCollection.find().toArray();
+            res.send(result);
         })
-        //get all roommates
+        // post / create a post
+        app.post('/roommates', async (req, res) => {
+            const postData = req.body;
+            const result = await roommateCollection.insertOne(postData);
+            res.send(result);
+        });
 
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
@@ -41,10 +49,15 @@ async function run() {
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
-        await client.close();
+        // await client.close();
     }
 }
 run().catch(console.dir);
+
+//default run server
+app.get('/', (req, res) => {
+    res.send('Server is running')
+})
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
