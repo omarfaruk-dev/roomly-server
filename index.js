@@ -49,6 +49,25 @@ async function run() {
             res.send(result);
         });
 
+        //Update post Roommate post
+         app.put('/roommates/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)};
+      const roommateUpdate = req.body;
+
+      const options = {upsert: true};
+
+      const updatedDoc = {
+        $set: roommateUpdate
+      };
+      
+      const result = await roommateCollection.updateOne(filter, updatedDoc, options);
+
+      res.send(result);
+       console.log(result);
+
+    })
+
         //delete a roommate post
      app.delete('/roommates/:id', async (req, res) => {
       const id = req.params.id;
