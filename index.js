@@ -37,11 +37,11 @@ async function run() {
         })
         //get a single roommate data
         app.get('/roommates/:id', async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) }
-      const result = await roommateCollection.findOne(query);
-      res.send(result);
-    })
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await roommateCollection.findOne(query);
+            res.send(result);
+        })
         // post / create a post
         app.post('/roommates', async (req, res) => {
             const postData = req.body;
@@ -50,31 +50,39 @@ async function run() {
         });
 
         //Update post Roommate post
-         app.put('/roommates/:id', async(req, res)=>{
-      const id = req.params.id;
-      const filter = {_id : new ObjectId(id)};
-      const roommateUpdate = req.body;
+        app.put('/roommates/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const roommateUpdate = req.body;
 
-      const options = {upsert: true};
+            const options = { upsert: true };
 
-      const updatedDoc = {
-        $set: roommateUpdate
-      };
-      
-      const result = await roommateCollection.updateOne(filter, updatedDoc, options);
+            const updatedDoc = {
+                $set: roommateUpdate
+            };
 
-      res.send(result);
-       console.log(result);
+            const result = await roommateCollection.updateOne(filter, updatedDoc, options);
 
-    })
+            res.send(result);
+            console.log(result);
+
+        })
 
         //delete a roommate post
-     app.delete('/roommates/:id', async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await roommateCollection.deleteOne(query);
-      res.send(result);
-    })
+        app.delete('/roommates/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await roommateCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // Get only 6 available roommates from roommateCollection
+        app.get('/featured-roommates', async (req, res) => {
+                const query = { availability: "available" };
+                const result = await roommateCollection.find(query).limit(6).toArray();
+                res.send(result);
+        });
+
 
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
