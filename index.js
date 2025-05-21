@@ -78,10 +78,46 @@ async function run() {
 
         // Get only 6 available roommates from roommateCollection
         app.get('/featured-roommates', async (req, res) => {
-                const query = { availability: "available" };
-                const result = await roommateCollection.find(query).limit(6).toArray();
-                res.send(result);
+            const query = { availability: "available" };
+            const result = await roommateCollection.find(query).limit(6).toArray();
+            res.send(result);
         });
+
+        // Add like count
+
+        app.patch('/roommates/:id/like', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+
+            try {
+                // Ensure 'likes' is a number before incrementing
+                const doc = await roommateCollection.findOne(filter);
+                if (!doc) {
+                    return res.status(404).send({ message: 'Roommate not found' });
+                }
+
+                // If likes is not a number, convert it
+                if (typeof doc.likes !== 'number') {
+                    const likesNum = parseInt(doc.likes) || 0;
+                    await roommateCollection.updateOne(filter, { $set: { likes: likesNum } });
+                }
+
+                // Now increment
+                const updateResult = await roommateCollection.updateOne(filter, { $inc: { likes: 1 } });
+
+                if (updateResult.modifiedCount > 0) {
+                    const updatedDoc = await roommateCollection.findOne(filter);
+                    res.send({ likes: updatedDoc.likes });
+                } else {
+                    res.status(404).send({ message: 'Roommate not found or already liked' });
+                }
+            } catch (error) {
+                res.status(500).send({ error: 'Internal server error', details: error.message });
+            }
+        });
+
+
+
 
 
         // Connect the client to the server	(optional starting in v4.7)
