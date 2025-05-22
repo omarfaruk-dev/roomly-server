@@ -89,7 +89,6 @@ async function run() {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
 
-            try {
                 // Ensure 'likes' is a number before incrementing
                 const doc = await roommateCollection.findOne(filter);
                 if (!doc) {
@@ -111,20 +110,14 @@ async function run() {
                 } else {
                     res.status(404).send({ message: 'Roommate not found or already liked' });
                 }
-            } catch (error) {
-                res.status(500).send({ error: 'Internal server error', details: error.message });
-            }
         });
-
-
-
 
 
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
