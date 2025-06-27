@@ -64,7 +64,6 @@ async function run() {
             const result = await roommateCollection.updateOne(filter, updatedDoc, options);
 
             res.send(result);
-            console.log(result);
 
         })
 
@@ -76,10 +75,10 @@ async function run() {
             res.send(result);
         })
 
-        // Get only 6 available roommates from roommateCollection
+        // Get only 8 available roommates from roommateCollection
         app.get('/featured-roommates', async (req, res) => {
             const query = { availability: "available" };
-            const result = await roommateCollection.find(query).limit(6).toArray();
+            const result = await roommateCollection.find(query).limit(8).toArray();
             res.send(result);
         });
 
