@@ -8,8 +8,8 @@ This is the backend server for the *Roomly* web application, providing RESTful A
 
 ## Related Repositories
 
-- **Client-side:** [Roomly Client GitHub](https://github.com/Programming-Hero-Web-Course4/b11a10-client-side-omarfaruk-dev)
-- **Server-side:** [Roomly Server GitHub](https://github.com/Programming-Hero-Web-Course4/b11a10-server-side-omarfaruk-dev)
+- **Client-side:** [Roomly Client GitHub](https://github.com/omarfaruk-dev/roomly-client.git)
+- **Server-side:** [Roomly Server GitHub](https://github.com/omarfaruk-dev/roomly-server.git)
 
 ## Features
 
@@ -33,7 +33,7 @@ This is the backend server for the *Roomly* web application, providing RESTful A
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Programming-Hero-Web-Course4/b11a10-server-side-omarfaruk-dev
+   git clone https://github.com/omarfaruk-dev/roomly-server.git
 
    cd roomly-server
    ```
